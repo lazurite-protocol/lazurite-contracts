@@ -1,0 +1,15 @@
+{
+  "chainId": 6281971,
+  "deployedAt": 1795544128,
+  "deployer": "0x8B2Bc24Fb912e19e66B00C6cde6Bc84bCCFc8637",
+  "feeReceiver": "0x8d836630E6FA80B353D4C7B4D50C9f6B3D68cB57",
+  "flatFeeWei": 1000000000000000,
+  "liquidityAndTokenLocker": "0xC74F9aFAcD95d74A170a3275F14c38f9273824E2",
+  "lockFeeWei": 500000000000000,
+  "network": "DogeOS Chikyu Testnet",
+  "tokenFactory": "0x553A3e2bcad83eEbDB8B860ef7169d9C8D52a8f9",
+  "tokenVesting": "0x8d0Fe34995e20FD5C2abB773639Ed6f37c148558",
+  "vestingFeeWei": 500000000000000,
+  "v3LiquidityLocker": "0x112C276062FB38B40398AE403651C57c7f9934B6",
+  "v3LockFeeWei": 500000000000000
+}

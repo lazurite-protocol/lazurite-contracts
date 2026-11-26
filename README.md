@@ -13,7 +13,7 @@ Lazurite is a universal, multichain DeFi protocol for EVM-compatible ecosystems.
 - No proxies and no upgrade authority.
 - No owner, admin, rescue, or privileged withdrawal path.
 - Assets remain non-custodial and can only be withdrawn by the recorded owner or beneficiary.
-- V3/Algebra swap fees are collected by the position owner without unlocking the NFT.
+- V3 swap fees are collected by the position owner without unlocking the NFT.
 - OpenZeppelin SafeERC20 is used for token transfers and fee-on-transfer accounting.
 - Every deployment is immutable and independently verifiable on-chain.
 
@@ -24,9 +24,9 @@ Lazurite is a universal, multichain DeFi protocol for EVM-compatible ecosystems.
 | TokenFactory | Deploys fixed-supply OpenZeppelin ERC-20 tokens with a public on-chain registry |
 | LiquidityAndTokenLocker | Locks ERC-20 and ERC-20 LP balances until a timestamp; owner-only withdrawal |
 | TokenVesting | Linear vesting with an optional cliff; beneficiary-only release |
-| V3LiquidityLocker | Locks BarkSwap/Algebra V3 NFT positions; owner-only fee collection and post-unlock withdrawal |
+| V3LiquidityLocker | Supports Uniswap V3, Algebra V3, and any ERC-721 NonfungiblePositionManager DEXs; owner-only swap fee collection and post-unlock withdrawal |
 
-The V3 locker uses the narrow [IBarkSwapNonfungiblePositionManager](src/interfaces/IBarkSwapNonfungiblePositionManager.sol) interface for Algebra-style positions. A V3 lock does not implement ve(3,3) governance, gauges, emissions, or voting escrow.
+The V3 locker accepts standard ERC-721 NonfungiblePositionManager positions and uses a narrow collect interface. It does not custody private keys, upgrade positions, or expose an administrative withdrawal path.
 
 ## Deployments
 
@@ -36,10 +36,10 @@ Chain ID: **6281971**
 
 | Contract | Address | Purpose |
 | --- | --- | --- |
-| TokenFactory | `0x553A3e2bcad83eEbDB8B860ef7169d9C8D52a8f9` | ERC-20 token deployment and registry |
-| LiquidityAndTokenLocker | `0xC74F9aFAcD95d74A170a3275F14c38f9273824E2` | ERC-20 / V2 LP locking |
-| TokenVesting | `0x8d0Fe34995e20FD5C2abB773639Ed6f37c148558` | Linear token vesting |
-| V3LiquidityLocker | `0x112C276062FB38B40398AE403651C57c7f9934B6` | V3 / Algebra NFT locking |
+| TokenFactory | 0x553A3e2bcad83eEbDB8B860ef7169d9C8D52a8f9 | ERC-20 token deployment and registry |
+| LiquidityAndTokenLocker | 0xC74F9aFAcD95d74A170a3275F14c38f9273824E2 | ERC-20 / V2 LP locking |
+| TokenVesting | 0x8d0Fe34995e20FD5C2abB773639Ed6f37c148558 | Linear token vesting |
+| V3LiquidityLocker | 0x112C276062FB38B40398AE403651C57c7f9934B6 | V3 / Algebra NFT locking |
 
 Explorer: [DogeOS Chikyū Testnet](https://blockscout.testnet.dogeos.com)
 
@@ -47,7 +47,7 @@ Additional EVM deployments can be added without changing the protocol architectu
 
 ## Repository layout
 
-```
+~~~
 src/
   StandardERC20.sol
   TokenFactory.sol
@@ -55,23 +55,22 @@ src/
   TokenVesting.sol
   V3LiquidityLocker.sol
   interfaces/
-    IBarkSwapNonfungiblePositionManager.sol
 test/
   *.t.sol
 script/
   Deploy.s.sol
   DeployV3.s.sol
-```
+~~~
 
 ## Build and test
 
 Requirements: [Foundry](https://book.getfoundry.sh/).
 
-```bash
+~~~bash
 cd contracts
 forge build
 forge test -vvv
-```
+~~~
 
 The suite covers factory deployment, vesting with fee-on-transfer tokens, locker accounting, ownership, V3 NFT custody, fee collection, early-withdrawal protection, and lock extension rules.
 
@@ -79,8 +78,9 @@ The suite covers factory deployment, vesting with fee-on-transfer tokens, locker
 
 Use a dedicated deployer key. Never commit a private key or seed phrase.
 
-```bash
-export RPC_URL=https://rpc.testnet.dogeos.com
+~~~bash
+export RPC_URL=<RPC_URL>
+export CHAIN_ID=<CHAIN_ID>
 export PRIVATE_KEY=0x...
 
 forge script script/Deploy.s.sol:Deploy \
@@ -92,20 +92,18 @@ forge script script/DeployV3.s.sol:DeployV3 \
   --rpc-url "$RPC_URL" \
   --broadcast \
   -vvv
-```
+~~~
 
-The scripts enforce DogeOS Chikyū chain ID `6281971` and write deployment metadata under `deployments/`. Delete Foundry cache after deploying a real key.
+The deploy scripts use the configured deployment chain and write metadata under the deployments directory. Delete Foundry cache after deploying a real key.
 
 ## Verification
 
-Contracts can be verified on the DogeOS Blockscout explorer:
+Verify against the Blockscout-compatible API of the target network:
 
-```bash
+~~~bash
 forge verify-contract <ADDRESS> <SOURCE_PATH>:<CONTRACT_NAME> \
-  --chain-id 6281971 \
+  --chain-id <CHAIN_ID> \
   --verifier blockscout \
-  --verifier-url https://blockscout.testnet.dogeos.com/api/ \
+  --verifier-url <EXPLORER_VERIFIER_URL> \
   --constructor-args <ABI_ENCODED_ARGS>
-```
-
-Verification is not a security audit. A mainnet deployment requires an independent review.
+~~~

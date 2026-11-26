@@ -9,7 +9,8 @@ contract DeployV3 is Script {
     function run() external returns (V3LiquidityLocker v3Locker) {
         uint256 privateKey = vm.envUint("PRIVATE_KEY");
         address deployer = vm.addr(privateKey);
-        require(block.chainid == 6281971, "Expected DogeOS Chikyu Testnet");
+        uint256 expectedChainId = vm.envOr("CHAIN_ID", uint256(6281971));
+        require(block.chainid == expectedChainId, "Unexpected chain ID: set CHAIN_ID to override");
 
         address payable feeReceiver = payable(vm.envOr("FEE_RECEIVER", deployer));
         uint256 lockFee = vm.envOr("LOCK_FEE_WEI", uint256(500000000000000));

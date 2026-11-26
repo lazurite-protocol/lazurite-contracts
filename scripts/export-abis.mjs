@@ -11,7 +11,8 @@ const contracts = [
   { name: "tokenFactory", file: "TokenFactory.sol", contract: "TokenFactory" },
   { name: "liquidityLocker", file: "LiquidityAndTokenLocker.sol", contract: "LiquidityAndTokenLocker" },
   { name: "tokenVesting", file: "TokenVesting.sol", contract: "TokenVesting" },
-  { name: "v3LiquidityLocker", file: "V3LiquidityLocker.sol", contract: "V3LiquidityLocker" }
+  { name: "v3LiquidityLocker", file: "V3LiquidityLocker.sol", contract: "V3LiquidityLocker" },
+  { name: "lazuriteMultisender", file: "LazuriteMultisender.sol", contract: "LazuriteMultisender" }
 ];
 
 mkdirSync(outDir, { recursive: true });

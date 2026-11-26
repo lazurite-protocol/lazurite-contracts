@@ -1,6 +1,6 @@
 # Lazurite Protocol
 
-Lazurite is a universal, multichain DeFi protocol for EVM-compatible ecosystems. It provides an ERC-20 Token Factory, a V2/ERC-20 Liquidity Locker, Token Vesting, and a V3/Algebra NFT Liquidity Locker.
+Lazurite is a universal, multichain DeFi protocol for EVM-compatible ecosystems. It provides an ERC-20 Token Factory, a V2/ERC-20 Liquidity Locker, Token Vesting, a V3/Algebra NFT Liquidity Locker, and Lazurite Multisender.
 
 - Website: [https://lazurite.one](https://lazurite.one)
 - X: [@lazurite_one](https://x.com/lazurite_one)
@@ -25,6 +25,7 @@ Lazurite is a universal, multichain DeFi protocol for EVM-compatible ecosystems.
 | LiquidityAndTokenLocker | Locks ERC-20 and ERC-20 LP balances until a timestamp; owner-only withdrawal |
 | TokenVesting | Linear vesting with an optional cliff; beneficiary-only release |
 | V3LiquidityLocker | Supports Uniswap V3, Algebra V3, and any ERC-721 NonfungiblePositionManager DEXs; owner-only swap fee collection and post-unlock withdrawal |
+| LazuriteMultisender | Batch native coins or ERC-20 tokens to up to 250 recipients in one transaction; immutable protocol fee and no admin withdrawal |
 
 The V3 locker accepts standard ERC-721 NonfungiblePositionManager positions and uses a narrow collect interface. It does not custody private keys, upgrade positions, or expose an administrative withdrawal path.
 
@@ -40,6 +41,7 @@ Chain ID: **6281971**
 | LiquidityAndTokenLocker | 0xC74F9aFAcD95d74A170a3275F14c38f9273824E2 | ERC-20 / V2 LP locking |
 | TokenVesting | 0x8d0Fe34995e20FD5C2abB773639Ed6f37c148558 | Linear token vesting |
 | V3LiquidityLocker | 0x112C276062FB38B40398AE403651C57c7f9934B6 | V3 / Algebra NFT locking |
+| LazuriteMultisender | 0x91C14FB2d21EE9d6003e7B523406dE0484d2eACc | Batch native and ERC-20 payments |
 
 Explorer: [DogeOS Chikyū Testnet](https://blockscout.testnet.dogeos.com)
 
@@ -60,6 +62,7 @@ test/
 script/
   Deploy.s.sol
   DeployV3.s.sol
+  DeployMultisender.s.sol
 ~~~
 
 ## Build and test

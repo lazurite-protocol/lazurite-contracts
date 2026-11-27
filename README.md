@@ -2,8 +2,8 @@
 
 Lazurite is a universal, multichain DeFi protocol for EVM-compatible ecosystems. It provides an ERC-20 Token Factory, a V2/ERC-20 Liquidity Locker, Token Vesting, a V3/Algebra NFT Liquidity Locker, and Lazurite Multisender.
 
-- Website: [https://lazurite.one](https://lazurite.one)
-- X: [@lazurite_one](https://x.com/lazurite_one)
+- Website: [https://lazurite.app](https://lazurite.app)
+- X: [@lzrtte](https://x.com/lzrtte)
 - Contracts: [lazurite-protocol/lazurite-contracts](https://github.com/lazurite-protocol/lazurite-contracts)
 
 ## Security model
